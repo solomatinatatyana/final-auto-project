@@ -112,6 +112,11 @@ public class EventsPage extends AbstractPage {
                 "and .//label[contains(text(), '"+filter+"')]]"));
     }
 
+    /**
+     * Получить элемент места проведения мероприятий
+     * @param element карточка
+     * @return
+     */
     public WebElement getGlobalLocation(WebElement element){
         WebElement elLoc = null;
         try {
