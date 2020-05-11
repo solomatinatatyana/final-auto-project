@@ -114,9 +114,11 @@ public class EventsPage extends AbstractPage {
      * @param searchText критерий поиска
      */
     public void filterByLocation(String searchText){
-        WebDriverWait wait = (new WebDriverWait(driver, 150));
+        WebDriverWait wait = (new WebDriverWait(driver, 400));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        locationFilterSelect.click();
+        WebElement location = new WebDriverWait(driver,200)
+                .until(ExpectedConditions.visibilityOf(locationFilterSelect));
+        location.click();
         (new WebDriverWait(driver, 50))
                 .until(ExpectedConditions.visibilityOf(filterMenu));
         locationSearchTextInput.sendKeys(searchText);
@@ -125,7 +127,7 @@ public class EventsPage extends AbstractPage {
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
         locationFilterSelect.click();
-        WebDriverWait wait2 = (new WebDriverWait(driver, 10));
+        WebDriverWait wait2 = (new WebDriverWait(driver, 100));
         wait2.until(ExpectedConditions.visibilityOf(filterContentTable));
         Assert.assertTrue(eventsIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");

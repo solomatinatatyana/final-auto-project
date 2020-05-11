@@ -132,7 +132,7 @@
 						<suiteXmlFile>src/test/java/smoke.xml</suiteXmlFile>
 					</suiteXmlFiles>
 					<systemPropertyVariables>
-						<browser>CHROME</browser>
+						<browser>FIREFOX</browser>
 						<browser>${browser}</browser>
 					</systemPropertyVariables>
 					<properties>
