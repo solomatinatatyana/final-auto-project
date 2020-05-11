@@ -18,6 +18,21 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>bintray-rp</id>
+			<url>http://dl.bintray.com/epam/reportportal</url>
+		</repository>
+		<repository>
+			<id>bintray-healenium</id>
+			<url>http://dl.bintray.com/epam/healenium</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -33,6 +48,17 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<!--com.epam.reportportal -->
+		<dependency>
+			<groupId>com.epam.reportportal</groupId>
+			<artifactId>agent-java-testng</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.epam.reportportal</groupId>
+			<artifactId>logger-java-log4j</artifactId>
+			<version>4.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -82,6 +108,12 @@
 						<browser>CHROME</browser>
 						<browser>${browser}</browser>
 					</systemPropertyVariables>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>com.epam.reportportal.testng.ReportPortalTestNGListener</value>
+						</property>
+					</properties>
 				</configuration>
 			</plugin>
 		</plugins>
