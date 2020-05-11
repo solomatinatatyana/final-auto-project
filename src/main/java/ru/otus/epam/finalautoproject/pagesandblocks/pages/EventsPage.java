@@ -20,6 +20,7 @@ import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
+import ru.otus.epam.finalautoproject.pagesandblocks.blocks.FilterBlock;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class EventsPage extends AbstractPage {
     public EventsTabsNavBlock eventsTabsNavBlock;
     @Autowired
     public EventCardBlock eventCardBlock;
+    @Autowired
+    public FilterBlock filterBlock;
     @Autowired
     private WebElementsHelper elementsHelper;
 
@@ -47,18 +50,6 @@ public class EventsPage extends AbstractPage {
 
     @FindBy(css = ".evnt-event-card>a")
     public List<WebElement> eventCardList;
-
-    @FindBy(css = ".evnt-filters-content-table")
-    public WebElement filterContentTable;
-
-    @FindBy(xpath = ".//div[@id='filter_location']")
-    public WebElement locationFilterSelect;
-
-    @FindBy(xpath = ".//div[@aria-labelledby='filter_location']/div/input")
-    public WebElement locationSearchTextInput;
-
-    @FindBy(xpath = ".//div[@aria-labelledby='filter_location']")
-    public WebElement filterMenu;
 
     public void goToEventsView(Events eventType){
         log.info("Переключаемся на " + eventType);
@@ -81,7 +72,7 @@ public class EventsPage extends AbstractPage {
     }
 
     private List<WebElement> getAllEventsCard(){
-        scrollPageToTheBottom();
+        elementsHelper.scrollPageToTheBottom();
        /* do{
             scrollPageToTheBottom();
         }while (eventCardLoader.isDisplayed());*/
@@ -92,22 +83,6 @@ public class EventsPage extends AbstractPage {
         return getAllEventsCard().size();
     }
 
-
-
-    public void scrollPageToTheBottom(){
-        ((JavascriptExecutor) driver).executeScript("" +
-                "function f(){" +
-                "window.scrollTo(0, document.body.scrollHeight);" +
-                "setTimeout(function(){" +
-                " if ($(window).scrollTop() != $(document).height()-$(window).height()){" +
-                "f();" +
-                "}" +
-                "}" +
-                ",500);" +
-                "}" +
-                "f()");
-    }
-
     /**
      * Найти мероприятия по фильтру Location
      * @param searchText критерий поиска
@@ -116,18 +91,18 @@ public class EventsPage extends AbstractPage {
         WebDriverWait wait = (new WebDriverWait(driver, 400));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         WebElement location = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(locationFilterSelect));
+                .until(ExpectedConditions.visibilityOf(filterBlock.locationFilterSelect));
         location.click();
         (new WebDriverWait(driver, 50))
-                .until(ExpectedConditions.visibilityOf(filterMenu));
-        locationSearchTextInput.sendKeys(searchText);
+                .until(ExpectedConditions.visibilityOf(filterBlock.filterMenu));
+        filterBlock.locationSearchTextInput.sendKeys(searchText);
         WebElement checkbox = (new WebDriverWait(driver, 100))
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        locationFilterSelect.click();
+        filterBlock.locationFilterSelect.click();
         WebDriverWait wait2 = (new WebDriverWait(driver, 100));
-        wait2.until(ExpectedConditions.visibilityOf(filterContentTable));
+        wait2.until(ExpectedConditions.visibilityOf(filterBlock.filterContentTable));
         Assert.assertTrue(eventsIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
@@ -154,6 +129,4 @@ public class EventsPage extends AbstractPage {
 
         return elLoc;
     }
-
-    public void scrollBy(int y){ ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,"+ y +")"); }
 }
