@@ -1,6 +1,8 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,6 +15,8 @@ import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventNavigationNavBar
 
 @Component
 public class MainPage extends AbstractPage{
+    private Logger log = LogManager.getLogger(MainPage.class);
+
     @Autowired
     public EventNavigationNavBarBlock eventNavigationNavBarBlock;
 
@@ -27,6 +31,7 @@ public class MainPage extends AbstractPage{
     }
 
     public void goToNavView(NavigationBar button){
+        log.info("Переходим на вкладку " + button);
         switch (button){
             case CALENDAR:
                 WebElement calendarButton = (new WebDriverWait(driver, 10))

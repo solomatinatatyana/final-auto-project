@@ -12,8 +12,8 @@ import ru.otus.epam.finalautoproject.config.BaseWebDrivingTest;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.enums.Events;
 import ru.otus.epam.finalautoproject.enums.NavigationBar;
+import ru.otus.epam.finalautoproject.helpers.EventsCardHelper;
 import ru.otus.epam.finalautoproject.models.EventCard;
-import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventCardPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 
@@ -24,14 +24,14 @@ import java.util.List;
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
 @Test(groups = "smoke")
-public class PastEventsCanadaTest extends BaseWebDrivingTest {
-    private Logger log = LogManager.getLogger(PastEventsCanadaTest.class);
+public class PastEventsTest extends BaseWebDrivingTest {
+    private Logger log = LogManager.getLogger(PastEventsTest.class);
     @Autowired
     private MainPage mainPage;
     @Autowired
     private EventsPage eventsPage;
     @Autowired
-    private EventCardPage eventCardPage;
+    private EventsCardHelper eventsCardHelper;
 
     @BeforeClass(alwaysRun = true)
     public void init(){
@@ -41,14 +41,14 @@ public class PastEventsCanadaTest extends BaseWebDrivingTest {
 
     private List<EventCard> eventCardList = new ArrayList<>();
 
-    @Test(description = "Перейти на Past Events. Отфильтровать события по блоку Location = Canada" +
+    @Test(description = "Перейти на Past Events. Отфильтровать события по блоку Location = Czechia" +
             "Проверить, что отображаются карточки прошедших мероприятий. " +
             "Количество карточек равно счетчику на кнопке Past Events")
     public void checkPastEvents(){
         eventsPage.goToEventsView(Events.PAST_EVENTS);
-        /*Отфильтровать метроприятия по блоку Location = Canada*/
+        /*Отфильтровать метроприятия по блоку Location = Czechia*/
         eventsPage.filterByLocation("Czechia");
-        /*Проверить, что отображаются карточки предстоящих мероприятий*/
+        /*Проверить, что отображаются карточки Прошедших мероприятий*/
         int currentUpcomingEventsCount= eventsPage.getEventsCount();
         softAssert.assertTrue(currentUpcomingEventsCount!=0,"Прошедших мероприятий нет!");
         //Проверить, что количество карточек соотвествует счетчику
@@ -61,7 +61,7 @@ public class PastEventsCanadaTest extends BaseWebDrivingTest {
     @Test(description = "Проверить, что Даты проведенных мероприятий меньше текущей даты",
             dependsOnMethods = "checkPastEvents")
     public void checkDateEvents(){
-        eventsPage.setEventCardList(eventCardList);
+        eventsCardHelper.setEventCardList(eventCardList);
         eventCardList.forEach(card->{
             LocalDate nowDate = LocalDate.now();
             softAssert.assertTrue(card.getDate().isBefore(nowDate),"Дата мероприятия ["+ card.getDate() +"] больше или равна текущей");

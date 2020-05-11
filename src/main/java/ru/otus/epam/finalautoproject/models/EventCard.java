@@ -1,6 +1,7 @@
 package ru.otus.epam.finalautoproject.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventCard {
@@ -8,22 +9,18 @@ public class EventCard {
     private String name;
     private String registrationInfo;
     private LocalDate date;
-    private List<String> speakerList;
+    private String language;
+    private List<String> speakerList = new ArrayList<>();
 
     public EventCard() { }
-
-    public EventCard(String location, String name, String registrationInfo, LocalDate date) {
-        this.location = location;
-        this.name = name;
-        this.registrationInfo = registrationInfo;
-        this.date = date;
-    }
 
     public EventCard(EventCard eventCard){
         this.location = eventCard.location;
         this.name = eventCard.name;
         this.registrationInfo = eventCard.registrationInfo;
         this.date = eventCard.date;
+        this.language = eventCard.language;
+        this.speakerList = eventCard.speakerList;
     }
 
     public String getLocation() {
@@ -50,13 +47,15 @@ public class EventCard {
         this.registrationInfo = registrationInfo;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
+    public LocalDate getDate() { return date; }
 
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public String getLanguage() { return language; }
+
+    public void setLanguage(String language) { this.language = language; }
 
     public List<String> getSpeakerList() {
         return speakerList;
@@ -73,6 +72,8 @@ public class EventCard {
         private String name;
         private String registrationInfo;
         private LocalDate date;
+        private String language;
+        private List<String> speakerList = new ArrayList<>();
 
         public EventCardBuilder withLocation(String location) {
             this.location = location;
@@ -94,12 +95,24 @@ public class EventCard {
             return this;
         }
 
+        public EventCardBuilder withLanguage(String language) {
+            this.language = language;
+            return this;
+        }
+
+        public EventCardBuilder withSpeakerList(List<String> speakerList){
+            this.speakerList = speakerList;
+            return this;
+        }
+
         public EventCard build(){
             EventCard card = new EventCard();
             card.setLocation(location);
+            card.setLanguage(language);
             card.setName(name);
             card.setRegistrationInfo(registrationInfo);
             card.setDate(date);
+            card.setSpeakerList(speakerList);
             return card;
         }
     }
@@ -111,6 +124,7 @@ public class EventCard {
                 ", name='" + name + '\'' +
                 ", registrationInfo='" + registrationInfo + '\'' +
                 ", date=" + date +
+                ", language='" + language + '\'' +
                 ", speakerList=" + speakerList +
                 '}';
     }

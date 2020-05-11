@@ -2,6 +2,8 @@ package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
 import com.epam.healenium.annotation.DisableHealing;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.testng.Assert;
 import ru.otus.epam.finalautoproject.enums.Events;
+import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
@@ -22,10 +25,13 @@ import java.util.List;
 
 @Component
 public class EventsPage extends AbstractPage {
+    private Logger log = LogManager.getLogger(EventsPage.class);
     @Autowired
     public EventsTabsNavBlock eventsTabsNavBlock;
     @Autowired
     public EventCardBlock eventCardBlock;
+    @Autowired
+    private WebElementsHelper elementsHelper;
 
     private static final String EVENT_CARD_LOADER_LOCATOR = ".evnt-cards-loading";
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
@@ -54,8 +60,8 @@ public class EventsPage extends AbstractPage {
     @FindBy(xpath = ".//div[@aria-labelledby='filter_location']")
     public WebElement filterMenu;
 
-
     public void goToEventsView(Events eventType){
+        log.info("Переключаемся на " + eventType);
         switch (eventType){
             case PAST_EVENTS:
                 WebDriverWait wait = (new WebDriverWait(driver, 10));
@@ -86,14 +92,7 @@ public class EventsPage extends AbstractPage {
         return getAllEventsCard().size();
     }
 
-    public boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by).isDisplayed();
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
+
 
     public void scrollPageToTheBottom(){
         ((JavascriptExecutor) driver).executeScript("" +
@@ -134,25 +133,21 @@ public class EventsPage extends AbstractPage {
     }
 
     private boolean eventsIsFilteredSuccess(String filter){
-        return isElementPresent(By.xpath(".//div[@class = 'evnt-tag evnt-filters-tags with-delete-elem' " +
+        return elementsHelper.isElementPresent(By.xpath(".//div[@class = 'evnt-tag evnt-filters-tags with-delete-elem' " +
                 "and .//label[contains(text(), '"+filter+"')]]"));
     }
 
-    /**
-     * Получить информацию по каждому мероприятию из списка мероприятий
-     * @param cardList список мероприятий
-     */
-    public void setEventCardList(List<EventCard> cardList){
-        eventCardList.forEach(card -> {
-            String date = card.findElement(eventCardBlock.CARD_DATE_LOCATOR).getText();
-            String name = card.findElement(eventCardBlock.CARD_NAME_LOCATOR).getText();
-            String status = card.findElement(eventCardBlock.CARD_STATUS_LOCATOR).getText();
-            cardList.add(new EventCard(EventCard.anCard()
-            .withName(name)
-            .withDate(eventCardBlock.getLocalDate(date))
-            .withRegistrationInfo(status)
-            .build()));
-        });
+    public WebElement getGlobalLocation(WebElement element){
+        WebElement elLoc = null;
+        if(elementsHelper.isElementPresent(element, eventCardBlock.CARD_LOCATION_LOCATOR)){
+             elLoc = eventCardBlock.getLocation();
+        }else if(elementsHelper.isElementPresent(element,eventCardBlock.CARD_LOCATION_ONLINE_LOCATOR)){
+            elLoc = eventCardBlock.getOnlineLocation();
+            log.info("Место проведения мероприятия: online");
+        }else {
+            log.info("Блок с местом проведения мероприятия остуствует");
+        }
+        return elLoc;
     }
 
     public void scrollBy(int y){ ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,"+ y +")"); }

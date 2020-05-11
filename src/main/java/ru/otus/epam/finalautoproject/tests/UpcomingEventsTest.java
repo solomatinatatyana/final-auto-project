@@ -25,8 +25,6 @@ public class UpcomingEventsTest extends BaseWebDrivingTest {
     private MainPage mainPage;
     @Autowired
     private EventsPage eventsPage;
-    /*@Autowired
-    private Pages pages;*/
 
     @BeforeClass(alwaysRun = true)
     public void init(){
