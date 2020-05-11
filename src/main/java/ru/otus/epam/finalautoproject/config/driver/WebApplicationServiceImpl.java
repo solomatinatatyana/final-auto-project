@@ -1,5 +1,8 @@
 package ru.otus.epam.finalautoproject.config.driver;
 
+import com.epam.healenium.SelfHealingDriver;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -16,8 +19,10 @@ import java.util.Arrays;
 @Service
 public class WebApplicationServiceImpl implements WebApplicationService {
     @Override
-    public WebDriver initDriver(BrowserType browser, MutableCapabilities options) {
-        WebDriver driver = null;
+    public SelfHealingDriver initDriver(BrowserType browser, MutableCapabilities options) {
+        SelfHealingDriver driver = null;
+        WebDriver delegate;
+        Config config = ConfigFactory.load("properties/healenium.properties");
         switch (browser) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
@@ -33,13 +38,15 @@ public class WebApplicationServiceImpl implements WebApplicationService {
                         "--disable-feature=VizDisplayCompositor",
                         "--incognito"));
                 options.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-                driver = new ChromeDriver();
+                delegate = new ChromeDriver();
+                driver = SelfHealingDriver.create(delegate, config);
                 break;
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
                 options.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 options.setCapability(CapabilityType.HAS_NATIVE_EVENTS, true);
-                driver = new FirefoxDriver();
+                delegate = new FirefoxDriver();
+                driver = SelfHealingDriver.create(delegate, config);
                 break;
         }
         return driver;

@@ -16,6 +16,9 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<testng.version>6.14.3</testng.version>
+		<reportportal.version>4.0.1</reportportal.version>
+		<healenium.version>2.0.5</healenium.version>
 	</properties>
 
 	<repositories>
@@ -49,21 +52,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- com.epam.healenium -->
+		<dependency>
+			<groupId>com.epam.healenium</groupId>
+			<artifactId>healenium-web</artifactId>
+			<version>${healenium.version}</version>
+		</dependency>
 		<!--com.epam.reportportal -->
 		<dependency>
 			<groupId>com.epam.reportportal</groupId>
 			<artifactId>agent-java-testng</artifactId>
-			<version>4.0.1</version>
+			<version>${reportportal.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.epam.reportportal</groupId>
 			<artifactId>logger-java-log4j</artifactId>
-			<version>4.0.1</version>
+			<version>${reportportal.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.14.3</version>
+			<version>${testng.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>

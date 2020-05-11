@@ -1,6 +1,6 @@
 package ru.otus.epam.finalautoproject.config;
 
-import org.openqa.selenium.WebDriver;
+import com.epam.healenium.SelfHealingDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,12 +10,12 @@ import ru.otus.epam.finalautoproject.config.ui.BrowserType;
  * Класс для запуска тестов с использованием браузера
  */
 public class BaseWebDrivingTest extends BaseTest {
-    protected WebDriver driver;
+    protected SelfHealingDriver driver;
 
     @Autowired
     public Config config;
 
-    public void setDriver(WebDriver driver) {
+    public void setDriver(SelfHealingDriver driver) {
         this.driver = driver;
     }
 
