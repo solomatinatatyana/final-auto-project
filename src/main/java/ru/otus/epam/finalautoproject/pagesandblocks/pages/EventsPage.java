@@ -139,14 +139,19 @@ public class EventsPage extends AbstractPage {
 
     public WebElement getGlobalLocation(WebElement element){
         WebElement elLoc = null;
-        if(elementsHelper.isElementPresent(element, eventCardBlock.CARD_LOCATION_LOCATOR)){
-             elLoc = eventCardBlock.getLocation();
-        }else if(elementsHelper.isElementPresent(element,eventCardBlock.CARD_LOCATION_ONLINE_LOCATOR)){
-            elLoc = eventCardBlock.getOnlineLocation();
-            log.info("Место проведения мероприятия: online");
-        }else {
+        try {
+            if(elementsHelper.isElementPresent(element, eventCardBlock.CARD_LOCATION_LOCATOR)){
+                elLoc = eventCardBlock.getLocation();
+            }else if(elementsHelper.isElementPresent(element,eventCardBlock.CARD_LOCATION_ONLINE_LOCATOR)){
+                elLoc = eventCardBlock.getOnlineLocation();
+                log.info("Место проведения мероприятия: online");
+            }else {
+                log.info("Блок с местом проведения мероприятия остуствует");
+            }
+        }catch (NoSuchElementException e){
             log.info("Блок с местом проведения мероприятия остуствует");
         }
+
         return elLoc;
     }
 

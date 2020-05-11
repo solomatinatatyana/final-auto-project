@@ -22,7 +22,6 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
@@ -46,13 +45,13 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
 
     @BeforeClass(alwaysRun = true)
     public void init(){
-        elementsBlockList.addAll(Arrays.asList(
+        /*elementsBlockList.addAll(Arrays.asList(
                 eventsPage.eventCardBlock.getOnlineLocation(),
                 eventsPage.eventCardBlock.getLanguage(),
                 eventsPage.eventCardBlock.getName(),
                 eventsPage.eventCardBlock.getStatus(),
                 eventsPage.eventCardBlock.getSpeakersBlock()
-        ));
+        ));*/
         mainPage.open(config.getUrl());
         mainPage.goToNavView(NavigationBar.EVENTS);
     }

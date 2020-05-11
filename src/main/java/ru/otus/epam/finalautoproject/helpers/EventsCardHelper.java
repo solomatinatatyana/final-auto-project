@@ -26,7 +26,13 @@ public class EventsCardHelper {
      */
     public void setEventCardList(List<EventCard> cardList){
         eventsPage.eventCardList.forEach(card -> {
-            String location = eventsPage.getGlobalLocation(card).getText();
+            String location ="";
+            try{
+                WebElement elLoc = eventsPage.getGlobalLocation(card);
+                location = elLoc.getText();
+            }catch (NullPointerException e){
+                location="";
+            }
             String date = card.findElement(eventsPage.eventCardBlock.CARD_DATE_LOCATOR).getText();
             String name = card.findElement(eventsPage.eventCardBlock.CARD_NAME_LOCATOR).getText();
             String status = card.findElement(eventsPage.eventCardBlock.CARD_STATUS_LOCATOR).getText();
