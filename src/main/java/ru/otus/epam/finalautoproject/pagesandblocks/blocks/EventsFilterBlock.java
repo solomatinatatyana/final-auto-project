@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.AbstractPage;
 
 @Component
-public class FilterBlock extends AbstractPage {
-    public FilterBlock(SelfHealingDriver driver) {
+public class EventsFilterBlock extends AbstractPage {
+    public EventsFilterBlock(SelfHealingDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
@@ -23,5 +23,5 @@ public class FilterBlock extends AbstractPage {
     public WebElement locationSearchTextInput;
 
     @FindBy(xpath = ".//div[@aria-labelledby='filter_location']")
-    public WebElement filterMenu;
+    public WebElement locationFilterMenu;
 }

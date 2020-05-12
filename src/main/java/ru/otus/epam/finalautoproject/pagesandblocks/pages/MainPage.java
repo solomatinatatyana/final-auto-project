@@ -3,6 +3,7 @@ package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 import com.epam.healenium.SelfHealingDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,6 +26,8 @@ public class MainPage extends AbstractPage{
         PageFactory.initElements(driver,this);
     }
 
+    private static final String GLOBAL_LOADER = ".evnt-global-loader";
+
     public void open(String url){
         driver.get(url);
         Assert.assertEquals(driver.getCurrentUrl(),url,"Сайт не открылся");
@@ -37,24 +40,32 @@ public class MainPage extends AbstractPage{
                 WebElement calendarButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.calendarButton));
                 calendarButton.click();
+                WebDriverWait wait = (new WebDriverWait(driver, 400));
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/calendar");
                 break;
             case EVENTS:
                 WebElement eventButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.eventsButton));
                 eventButton.click();
+                WebDriverWait wait1 = (new WebDriverWait(driver, 400));
+                wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/events");
                 break;
             case TALKS_LIBRARY:
                 WebElement talksButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.talksLibraryButton));
                 talksButton.click();
+                WebDriverWait wait2 = (new WebDriverWait(driver, 400));
+                wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/talks");
                 break;
             case SPEAKERS:
                 WebElement speakersButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.speakersButton));
                 speakersButton.click();
+                WebDriverWait wait3 = (new WebDriverWait(driver, 400));
+                wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/speakers");
                 break;
         }

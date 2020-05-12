@@ -40,15 +40,16 @@ public class WebElementsHelper {
      */
     public void scrollPageToTheBottom(){
         ((JavascriptExecutor) config.getDriver()).executeScript("" +
-                "function f(){" +
-                "window.scrollTo(0, document.body.scrollHeight);" +
-                "setTimeout(function(){" +
-                " if ($(window).scrollTop() != $(document).height()-$(window).height()){" +
-                "f();" +
-                "}" +
-                "}" +
-                ",500);" +
-                "}" +
+                "function f(){\n" +
+                "var height = 0; \n" +
+                "var attempt = 0; \n" +
+                "var intS = 0; \n" +
+                "function scrollToEndPage() { \n" +
+                "console.log(\"height:\" + height + \" scrollHeight:\" + document.body.scrollHeight + \" att:\" + attempt ); \n" +
+                "if (height < document.body.scrollHeight) { \n" +
+                "height = document.body.scrollHeight; window.scrollTo(0, height); attempt++; \n" +
+                "} else { clearInterval(intS); } } intS = setInterval(scrollToEndPage,1000);\n" +
+                "}\n" +
                 "f()");
     }
 

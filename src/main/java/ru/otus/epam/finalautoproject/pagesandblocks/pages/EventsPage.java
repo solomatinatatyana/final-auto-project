@@ -5,7 +5,6 @@ import com.epam.healenium.annotation.DisableHealing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,10 +16,9 @@ import org.springframework.stereotype.Component;
 import org.testng.Assert;
 import ru.otus.epam.finalautoproject.enums.Events;
 import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
-import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
-import ru.otus.epam.finalautoproject.pagesandblocks.blocks.FilterBlock;
+import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsFilterBlock;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class EventsPage extends AbstractPage {
     @Autowired
     public EventCardBlock eventCardBlock;
     @Autowired
-    public FilterBlock filterBlock;
+    public EventsFilterBlock eventsFilterBlock;
     @Autowired
     private WebElementsHelper elementsHelper;
 
@@ -73,9 +71,6 @@ public class EventsPage extends AbstractPage {
 
     private List<WebElement> getAllEventsCard(){
         elementsHelper.scrollPageToTheBottom();
-       /* do{
-            scrollPageToTheBottom();
-        }while (eventCardLoader.isDisplayed());*/
         return eventCardList;
     }
 
@@ -91,18 +86,18 @@ public class EventsPage extends AbstractPage {
         WebDriverWait wait = (new WebDriverWait(driver, 400));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         WebElement location = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(filterBlock.locationFilterSelect));
+                .until(ExpectedConditions.visibilityOf(eventsFilterBlock.locationFilterSelect));
         location.click();
         (new WebDriverWait(driver, 50))
-                .until(ExpectedConditions.visibilityOf(filterBlock.filterMenu));
-        filterBlock.locationSearchTextInput.sendKeys(searchText);
+                .until(ExpectedConditions.visibilityOf(eventsFilterBlock.locationFilterMenu));
+        eventsFilterBlock.locationSearchTextInput.sendKeys(searchText);
         WebElement checkbox = (new WebDriverWait(driver, 100))
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        filterBlock.locationFilterSelect.click();
+        eventsFilterBlock.locationFilterSelect.click();
         WebDriverWait wait2 = (new WebDriverWait(driver, 100));
-        wait2.until(ExpectedConditions.visibilityOf(filterBlock.filterContentTable));
+        wait2.until(ExpectedConditions.visibilityOf(eventsFilterBlock.filterContentTable));
         Assert.assertTrue(eventsIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
