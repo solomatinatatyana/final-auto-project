@@ -61,10 +61,10 @@ public class PastEventsTest extends BaseWebDrivingTest {
     @Test(description = "Проверить, что Даты проведенных мероприятий меньше текущей даты",
             dependsOnMethods = "checkPastEvents")
     public void checkDateEvents(){
-        LocalDate nowDate = LocalDate.now();
+        LocalDate today = LocalDate.now();
         eventsCardHelper.setEventCardList(eventCardList);
         eventCardList.forEach(card->{
-            softAssert.assertTrue(card.getDate().isBefore(nowDate),"Дата мероприятия ["+ card.getDate() +"] больше или равна текущей");
+            softAssert.assertTrue(card.getDate().isBefore(today),"Дата мероприятия ["+ card.getDate() +"] больше или равна текущей");
         });
         softAssert.assertAll();
     }

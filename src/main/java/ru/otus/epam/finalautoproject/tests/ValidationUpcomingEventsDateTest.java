@@ -23,6 +23,10 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
 import static ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock.CARD_DATE;
 
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
@@ -36,10 +40,6 @@ public class ValidationUpcomingEventsDateTest extends BaseWebDrivingTest {
     private EventsPage eventsPage;
     @Autowired
     private DateHelper dateHelper;
-
-    /*
-     * Тестовые данные
-     */
 
     @BeforeClass(alwaysRun = true)
     public void init(){
@@ -57,21 +57,25 @@ public class ValidationUpcomingEventsDateTest extends BaseWebDrivingTest {
         Assert.assertTrue(currentUpcomingEventsCount!=0,"Предстоящих мероприятий нет!");
     }
 
-    @Test(description = "Проверить, что В блоке This week даты проведения мероприятий больше или равны текущей дате",
+    @Test(description = "Проверить, что В блоке This week даты проведения мероприятий больше или равны текущей дате" +
+            "и даты находятся в пределах текущей недели",
             dependsOnMethods = "checkUpcomingEvents")
     public void ValidateDates(){
         List<WebElement> cardElements = eventsPage.getEventCardThisWeekList();
-        LocalDate nowDate = LocalDate.now();
+        log.info("Всего на странице карточек в блоке [This Week]: " + cardElements.size());
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(previousOrSame(MONDAY));
+        LocalDate sunday = today.with(nextOrSame(SUNDAY));
+        log.info("\n"+"Текущая дата: " + today.toString() + "\n" +
+                    "Дата начала недели: " + monday + "\n" +
+                    "Дата окончания недели: " + sunday);
         cardElements.forEach(card->{
             LocalDate date = dateHelper.getDate(card.findElement(By.cssSelector(CARD_DATE)).getText());
-            softAssert.assertTrue((date.isAfter(nowDate))||(date.isEqual(nowDate)),"Текущая дата меньше или не равна дате проведения мероприятия");
+            log.info("Дата проведения мероприятия на карточке: " + date.toString());
+            softAssert.assertTrue(date.isAfter(today)||date.isEqual(today),"Текущая дата меньше или не равна дате проведения мероприятия");
+            softAssert.assertTrue(((date.isAfter(monday)||date.isEqual(monday)) && (date.isBefore(sunday)||date.isEqual(sunday))),
+                    "Дата мероприятия "+ date.toString() +" выходит за пределы недели");
         });
         softAssert.assertAll();
-    }
-
-    @Test(description = "Проверить, что даты находятся в пределах текущей недели",
-            dependsOnMethods = "ValidateDates", alwaysRun = true)
-    public void ValidateDatesInIntervalWeek(){
-        //todo
     }
 }
