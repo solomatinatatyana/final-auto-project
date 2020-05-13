@@ -89,7 +89,7 @@ public class EventsPage extends AbstractPage {
      * @param searchText критерий поиска
      */
     public void filterByLocation(String searchText){
-        WebDriverWait wait = (new WebDriverWait(driver, 400));
+        WebDriverWait wait = (new WebDriverWait(driver, 500));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         WebElement location = new WebDriverWait(driver,200)
                 .until(ExpectedConditions.visibilityOf(eventsFilterBlock.locationFilterSelect));

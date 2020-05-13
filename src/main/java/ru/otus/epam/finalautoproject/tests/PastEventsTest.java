@@ -33,6 +33,11 @@ public class PastEventsTest extends BaseWebDrivingTest {
     @Autowired
     private EventsCardHelper eventsCardHelper;
 
+    /*
+     * Тестовые данные
+     */
+    private static final String SEARCH_TEXT = "Czechia";
+
     @BeforeClass(alwaysRun = true)
     public void init(){
         mainPage.open(config.getUrl());
@@ -47,9 +52,10 @@ public class PastEventsTest extends BaseWebDrivingTest {
     public void checkPastEvents(){
         eventsPage.goToEventsView(Events.PAST_EVENTS);
         /*Отфильтровать метроприятия по блоку Location = Czechia*/
-        eventsPage.filterByLocation("Czechia");
+        eventsPage.filterByLocation(SEARCH_TEXT);
         /*Проверить, что отображаются карточки Прошедших мероприятий*/
         int currentUpcomingEventsCount= eventsPage.getEventsCount();
+        log.info("Всего на странице карточек " + currentUpcomingEventsCount);
         softAssert.assertTrue(currentUpcomingEventsCount!=0,"Прошедших мероприятий нет!");
         //Проверить, что количество карточек соотвествует счетчику
         int eventsExpectedCount = Integer.parseInt(eventsPage.eventsTabsNavBlock.pastEventsCounter.getText());
@@ -64,6 +70,8 @@ public class PastEventsTest extends BaseWebDrivingTest {
         LocalDate today = LocalDate.now();
         eventsCardHelper.setEventCardList(eventCardList);
         eventCardList.forEach(card->{
+            log.info("Текущая дата: " + today);
+            log.info("Дата мероприятия: " + card.getDate());
             softAssert.assertTrue(card.getDate().isBefore(today),"Дата мероприятия ["+ card.getDate() +"] больше или равна текущей");
         });
         softAssert.assertAll();

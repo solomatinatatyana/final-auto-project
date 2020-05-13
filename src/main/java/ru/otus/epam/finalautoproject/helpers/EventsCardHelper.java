@@ -66,15 +66,13 @@ public class EventsCardHelper {
      */
     private String getLocation(Element element){
         String location = "";
-        try{
-            if(elementsHelper.isElementPresent(element,CARD_LOCATION)){
-                location = element.select(CARD_LOCATION).text();
-                log.info("Место проведения мероприятия: " + location);
-            }else if(elementsHelper.isElementPresent(element,CARD_LOCATION_ONLINE)){
-                location = element.select(CARD_LOCATION_ONLINE).text();
-                log.info("Место проведения мероприятия: online");
-            }
-        }catch (NullPointerException e){
+        if(elementsHelper.isElementPresent(element,CARD_LOCATION)){
+            location = element.select(CARD_LOCATION).text();
+            log.info("Место проведения мероприятия: " + location);
+        }else if(elementsHelper.isElementPresent(element,CARD_LOCATION_ONLINE)){
+            location = element.select(CARD_LOCATION_ONLINE).text();
+            log.info("Место проведения мероприятия: online");
+        }else{
             log.info("Блок с местом проведения мероприятия остуствует");
         }
         return location;

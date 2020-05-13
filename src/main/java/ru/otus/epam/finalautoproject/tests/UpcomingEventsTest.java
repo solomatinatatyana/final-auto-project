@@ -38,7 +38,8 @@ public class UpcomingEventsTest extends BaseWebDrivingTest {
     public void checkUpcomingEvents(){
         eventsPage.goToEventsView(Events.UPCOMING_EVENTS);
         /*Проверить, что отображаются карточки предстоящих мероприятий*/
-            int currentUpcomingEventsCount= eventsPage.getEventsCount();
+        int currentUpcomingEventsCount= eventsPage.getEventsCount();
+        log.info("Всего на странице карточек " + currentUpcomingEventsCount);
         softAssert.assertTrue(currentUpcomingEventsCount!=0,"Предстоящих мероприятий нет!");
         //Проверить, что количество карточек соотвествует счетчику
         int eventsExpectedCount = Integer.parseInt(eventsPage.eventsTabsNavBlock.upcomingEventsCounter.getText());
