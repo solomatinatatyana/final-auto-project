@@ -14,10 +14,13 @@ public class TalkCardBlock extends AbstractPage {
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(css = ".evnt-talk-name>h1>span")
+    public final String TALK_TITLE = ".evnt-talk-name>h1>span";
+    public final String LANGUAGE = ".language";
+
+    @FindBy(css = TALK_TITLE)
     public WebElement talkTitle;
 
-    @FindBy(css = ".language")
+    @FindBy(css = LANGUAGE)
     public WebElement language;
 
 }

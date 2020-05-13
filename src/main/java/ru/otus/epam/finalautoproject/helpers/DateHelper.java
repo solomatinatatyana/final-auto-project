@@ -13,4 +13,8 @@ public class DateHelper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
         return LocalDate.parse(date,formatter);
     }
+
+    public LocalDate getDate(String date) {
+        return convertToDate(date);
+    }
 }

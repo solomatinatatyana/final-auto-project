@@ -1,11 +1,9 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
-import com.epam.healenium.annotation.DisableHealing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -17,8 +15,8 @@ import org.testng.Assert;
 import ru.otus.epam.finalautoproject.enums.Events;
 import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
-import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsFilterBlock;
+import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
 
 import java.util.List;
 
@@ -36,17 +34,14 @@ public class EventsPage extends AbstractPage {
 
     private static final String EVENT_CARD_LOADER_LOCATOR = ".evnt-cards-loading";
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
+    public static final String EVENT_CARD = ".evnt-event-card>a";
 
     public EventsPage(SelfHealingDriver driver) {
         super(driver);
         PageFactory.initElements(driver,this);
     }
 
-    @DisableHealing
-    @FindBy(css = EVENT_CARD_LOADER_LOCATOR)
-    public WebElement eventCardLoader;
-
-    @FindBy(css = ".evnt-event-card>a")
+    @FindBy(css = EVENT_CARD)
     public List<WebElement> eventCardList;
 
     public void goToEventsView(Events eventType){
@@ -105,28 +100,5 @@ public class EventsPage extends AbstractPage {
     private boolean eventsIsFilteredSuccess(String filter){
         return elementsHelper.isElementPresent(By.xpath(".//div[@class = 'evnt-tag evnt-filters-tags with-delete-elem' " +
                 "and .//label[contains(text(), '"+filter+"')]]"));
-    }
-
-    /**
-     * Получить элемент места проведения мероприятий
-     * @param element карточка
-     * @return
-     */
-    public WebElement getGlobalLocation(WebElement element){
-        WebElement elLoc = null;
-        try {
-            if(elementsHelper.isElementPresent(element, eventCardBlock.CARD_LOCATION_LOCATOR)){
-                elLoc = eventCardBlock.getLocation();
-            }else if(elementsHelper.isElementPresent(element,eventCardBlock.CARD_LOCATION_ONLINE_LOCATOR)){
-                elLoc = eventCardBlock.getOnlineLocation();
-                log.info("Место проведения мероприятия: online");
-            }else {
-                log.info("Блок с местом проведения мероприятия остуствует");
-            }
-        }catch (NoSuchElementException e){
-            log.info("Блок с местом проведения мероприятия остуствует");
-        }
-
-        return elLoc;
     }
 }

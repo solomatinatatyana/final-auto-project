@@ -1,7 +1,6 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
-import com.epam.healenium.annotation.DisableHealing;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,18 +25,15 @@ public class TalksLibraryPage extends AbstractPage{
     private WebElementsHelper elementsHelper;
 
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
+    private static final String EVENT_TALK_CARD = ".evnt-talk-card>a";
 
     public TalksLibraryPage(SelfHealingDriver driver) {
         super(driver);
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(css = ".evnt-talk-card>a")
+    @FindBy(css = EVENT_TALK_CARD)
     public List<WebElement> eventTalkCardList;
-
-    @DisableHealing
-    @FindBy(css = ".evnt-cards-loading")
-    private WebElement loader;
 
     private List<WebElement> getAllTalkCard() throws InterruptedException {
         elementsHelper.scrollPageToTheBottom();

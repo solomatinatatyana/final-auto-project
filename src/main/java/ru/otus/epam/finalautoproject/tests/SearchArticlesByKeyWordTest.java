@@ -43,7 +43,7 @@ public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
         int countCards = talksLibraryPage.getEventsCount();
         log.info("Всего на странице карточек " + countCards);
         talksLibraryPage.eventTalkCardList.forEach(card->{
-            String title = card.findElement(By.cssSelector(".evnt-talk-name>h1>span")).getText();
+            String title = card.findElement(By.cssSelector(talksLibraryPage.talkCardBlock.TALK_TITLE)).getText();
             softAssert.assertTrue(StringUtils.containsIgnoreCase(title,searchText),
                     "В названии карточки ["+ title +"] не содержится поисковое слово Azure");
         });

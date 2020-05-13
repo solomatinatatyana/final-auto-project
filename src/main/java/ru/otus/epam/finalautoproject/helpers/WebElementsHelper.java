@@ -2,6 +2,7 @@ package ru.otus.epam.finalautoproject.helpers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.nodes.Element;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -16,6 +17,11 @@ public class WebElementsHelper {
     private Config config;
     private Logger log = LogManager.getLogger(WebElementsHelper.class);
 
+    /**
+     * Проверка присутсвия элемента на странице
+     * @param by локатор
+     * @return true/false
+     */
     public boolean isElementPresent(By by) {
         try {
             config.getDriver().findElement(by).isDisplayed();
@@ -25,6 +31,12 @@ public class WebElementsHelper {
         }
     }
 
+    /**
+     *
+     * @param element WebElement
+     * @param by локатор
+     * @return true/false
+     */
     public boolean isElementPresent(WebElement element, By by) {
         try {
             element.findElement(by).isDisplayed();
@@ -33,6 +45,18 @@ public class WebElementsHelper {
             log.info("Элемент с локатором "+ by +" не найден");
             return false;
         }
+    }
+
+    /**
+     * Проверка присутсвия элемента на странице (JSOUP)
+     * @param element Element
+     * @param selector локатор
+     * @return true/false
+     */
+    public boolean isElementPresent(Element element, String selector) {
+        if (!element.select(selector).isEmpty()) return true;
+        else log.info("Элемент с локатором " + selector + " не найден");
+        return false;
     }
 
     /**
