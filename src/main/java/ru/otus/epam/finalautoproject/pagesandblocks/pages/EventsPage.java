@@ -35,6 +35,7 @@ public class EventsPage extends AbstractPage {
     private static final String EVENT_CARD_LOADER_LOCATOR = ".evnt-cards-loading";
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
     public static final String EVENT_CARD = ".evnt-event-card>a";
+    private static final String THIS_WEEK_BLOCK = ".//div[@class='evnt-cards-container' and .//h3[contains(text(),'This week')]]";
 
     public EventsPage(SelfHealingDriver driver) {
         super(driver);
@@ -43,6 +44,16 @@ public class EventsPage extends AbstractPage {
 
     @FindBy(css = EVENT_CARD)
     public List<WebElement> eventCardList;
+
+    @FindBy(css = THIS_WEEK_BLOCK)
+    public WebElement thisWeekBlock;
+
+    @FindBy(xpath = THIS_WEEK_BLOCK+"//div[contains(@class,'evnt-event-card')]")
+    private List<WebElement> eventCardThisWeekList;
+
+    public List<WebElement> getEventCardThisWeekList(){
+        return eventCardThisWeekList;
+    }
 
     public void goToEventsView(Events eventType){
         log.info("Переключаемся на " + eventType);
@@ -101,4 +112,5 @@ public class EventsPage extends AbstractPage {
         return elementsHelper.isElementPresent(By.xpath(".//div[@class = 'evnt-tag evnt-filters-tags with-delete-elem' " +
                 "and .//label[contains(text(), '"+filter+"')]]"));
     }
+
 }

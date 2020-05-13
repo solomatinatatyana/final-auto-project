@@ -66,6 +66,4 @@ public class EventCardBlock extends AbstractPage {
     })
     public List<WebElement> cardElementStructureList;
 
-
-
 }
