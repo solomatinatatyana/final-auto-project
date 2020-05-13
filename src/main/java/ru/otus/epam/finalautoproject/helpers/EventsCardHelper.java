@@ -6,13 +6,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.models.EventCard;
-import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +24,6 @@ public class EventsCardHelper {
     private WebElementsHelper elementsHelper;
     @Autowired
     private DateHelper dateHelper;
-    @Autowired
-    private EventsPage eventsPage;
     @Autowired
     private Config config;
 
