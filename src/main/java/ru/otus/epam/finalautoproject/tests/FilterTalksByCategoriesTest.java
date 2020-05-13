@@ -1,9 +1,7 @@
 package ru.otus.epam.finalautoproject.tests;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,8 +17,8 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.TalksLibraryPage;
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
 @Test(groups = "smoke")
-public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
-    private Logger log = LogManager.getLogger(SearchArticlesByKeyWordTest.class);
+public class FilterTalksByCategoriesTest extends BaseWebDrivingTest {
+    private Logger log = LogManager.getLogger(FilterTalksByCategoriesTest.class);
     @Autowired
     private MainPage mainPage;
     @Autowired
@@ -29,7 +27,9 @@ public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
     /*
      * Тестовые данные
      */
-    private static final String SEARCH_TEXT = "Azure";
+    private static final String SEARCH_CATEGORY = "Design";
+    private static final String SEARCH_LOCATION = "Belarus";
+    private static final String SEARCH_LANGUAGE = "ENGLISH";
 
     @BeforeClass(alwaysRun = true)
     public void init(){
@@ -37,16 +37,11 @@ public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
         mainPage.goToNavView(NavigationBar.TALKS_LIBRARY);
     }
 
-    @Test(description = "Проверка фильтрации докладов по ключевому слову - Azure")
-    public void checkFilterTalks() throws InterruptedException {
-        talksLibraryPage.filterByKeyWord(SEARCH_TEXT);
-        int countCards = talksLibraryPage.getEventsCount();
-        log.info("Всего на странице карточек " + countCards);
-        talksLibraryPage.eventTalkCardList.forEach(card->{
-            String title = card.findElement(By.cssSelector(talksLibraryPage.talkCardBlock.TALK_TITLE)).getText();
-            softAssert.assertTrue(StringUtils.containsIgnoreCase(title,SEARCH_TEXT),
-                    "В названии карточки ["+ title +"] не содержится поисковое слово Azure");
-        });
-        softAssert.assertAll();
+    @Test(description = "Проверить Фильтрацию докладов по категориям: Category, Location, Language")
+    public void filterByCategories(){
+        talksLibraryPage.moreFilterButtonClick();
+        talksLibraryPage.filterByCategory(SEARCH_CATEGORY);
+        talksLibraryPage.filterByLocation(SEARCH_LOCATION);
+        talksLibraryPage.filterByLanguage(SEARCH_LANGUAGE);
     }
 }
