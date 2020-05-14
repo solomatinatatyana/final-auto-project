@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.testng.Assert;
 import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.TalkCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.TalksLibraryFilterBlock;
@@ -28,7 +29,7 @@ public class TalksLibraryPage extends AbstractPage{
     private WebElementsHelper elementsHelper;
 
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
-    private static final String EVENT_TALK_CARD = ".evnt-talk-card>a";
+    public static final String EVENT_TALK_CARD = ".evnt-talk-card>a";
 
     public TalksLibraryPage(SelfHealingDriver driver) {
         super(driver);
@@ -67,6 +68,8 @@ public class TalksLibraryPage extends AbstractPage{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         talksLibraryFilterBlock.locationFilterSelect.click();
         log.info("Применен фильтр Location - ["+ searchText +"]");
+        Assert.assertTrue(talksIsFilteredSuccess(searchText),
+                "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
 
     /**
@@ -87,6 +90,8 @@ public class TalksLibraryPage extends AbstractPage{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         talksLibraryFilterBlock.categoryFilterSelect.click();
         log.info("Применен фильтр Category - ["+ searchText +"]");
+        Assert.assertTrue(talksIsFilteredSuccess(searchText),
+                "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
 
     /**
@@ -108,6 +113,8 @@ public class TalksLibraryPage extends AbstractPage{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         talksLibraryFilterBlock.languageFilterSelect.click();
         log.info("Применен фильтр Language - ["+ searchText +"]");
+        Assert.assertTrue(talksIsFilteredSuccess(searchText),
+                "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
 
     public void filterByKeyWord(String searchText){
@@ -127,5 +134,10 @@ public class TalksLibraryPage extends AbstractPage{
         talksLibraryFilterBlock.eventToggleFiltersButton.click();
     }
 
-
+    public void goToCard(int position){
+        elementsHelper.scrollIntoView("evnt-talk-card",position);
+        eventTalkCardList.get(position).click();
+        WebDriverWait wait = (new WebDriverWait(driver, 400));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
+    }
 }

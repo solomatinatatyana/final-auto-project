@@ -77,6 +77,11 @@ public class WebElementsHelper {
                 "f()");
     }
 
+    public void scrollIntoView(String className, int position){
+        ((JavascriptExecutor) config.getDriver()).executeScript(
+                "document.getElementsByClassName('"+className+"')["+position+"].scrollIntoView()");
+    }
+
     /**
      * Проскроллить страницу на "y" вниз
      * @param y показатель на сколько скроллить страницу

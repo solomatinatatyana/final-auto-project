@@ -68,4 +68,7 @@ public class TalksLibraryFilterBlock extends AbstractPage {
     @FindBy(xpath = ".//div[@aria-labelledby='filter_talk_level']")
     public WebElement talkLevelFilterMenu;
 
+    @FindBy(css = ".evnt-results-cell>p>span")
+    public WebElement resultsCount;
+
 }

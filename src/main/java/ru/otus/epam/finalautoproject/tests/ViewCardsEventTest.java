@@ -16,7 +16,7 @@ import ru.otus.epam.finalautoproject.config.BaseWebDrivingTest;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.enums.Events;
 import ru.otus.epam.finalautoproject.enums.NavigationBar;
-import ru.otus.epam.finalautoproject.helpers.EventsCardHelper;
+import ru.otus.epam.finalautoproject.helpers.EventsAndTalksCardHelper;
 import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
@@ -37,7 +37,7 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
     @Autowired
     private EventsPage eventsPage;
     @Autowired
-    private EventsCardHelper eventsCardHelper;
+    private EventsAndTalksCardHelper eventsAndTalksCardHelper;
     @Autowired
     private WebElementsHelper elementsHelper;
     /*
@@ -75,8 +75,6 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
                     "Блок Названия мероприятия не найден");
             softAssert.assertTrue(elementsHelper.isElementPresent(card, By.cssSelector(CARD_DATE)),
                     "Блок даты проведения мероприятия не найден");
-            softAssert.assertTrue(elementsHelper.isElementPresent(card, By.cssSelector(CARD_STATUS)),
-                    "Блок с информацией о регистрации мероприятия на одной из карточек не найден");
             softAssert.assertTrue(elementsHelper.isElementPresent(card, By.cssSelector(CARD_SPEAKER_BLOCK)),
                     "Блок спикеров мероприятия не найден");
         });
@@ -88,14 +86,12 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
     public void checkCardInfo(){
         int countCard = eventsPage.getEventsCount();
         log.info("Всего карточек на странице: " + countCard);
-        eventsCardHelper.setEventCardList(eventCardList);
+        eventsAndTalksCardHelper.setEventCardList(eventCardList);
         eventCardList.forEach(card->{
             softAssert.assertFalse(Strings.isNullOrEmpty(card.getLocation()),"Не указано место проведения мероприятия");
             softAssert.assertFalse(Strings.isNullOrEmpty(card.getName()),"Не указано название мероприятия на карточке");
             softAssert.assertFalse(Strings.isNullOrEmpty(card.getLanguage()),"Не указан язык мероприятия");
             softAssert.assertFalse(Strings.isNullOrEmpty(card.getDate().toString()),"Не указана дата мероприятия");
-            softAssert.assertFalse(Strings.isNullOrEmpty(card.getRegistrationInfo()),
-                    "Не указана информации о регистрации мероприятия на карточке ["+ card.getName() +"]");
             softAssert.assertTrue(card.getSpeakerList().size()!=0,"Не указаны спикеры мероприятия");
         });
         softAssert.assertAll();

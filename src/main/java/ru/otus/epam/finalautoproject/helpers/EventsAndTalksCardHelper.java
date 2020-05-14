@@ -18,8 +18,8 @@ import static ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock
 import static ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage.EVENT_CARD;
 
 @Component
-public class EventsCardHelper {
-    private Logger log = LogManager.getLogger(EventsCardHelper.class);
+public class EventsAndTalksCardHelper {
+    private Logger log = LogManager.getLogger(EventsAndTalksCardHelper.class);
     @Autowired
     private WebElementsHelper elementsHelper;
     @Autowired

@@ -11,7 +11,6 @@ import ru.otus.epam.finalautoproject.config.ui.BrowserType;
  */
 public class BaseWebDrivingTest extends BaseTest {
     protected SelfHealingDriver driver;
-
     @Autowired
     public Config config;
 

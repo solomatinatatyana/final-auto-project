@@ -12,7 +12,7 @@ import ru.otus.epam.finalautoproject.config.BaseWebDrivingTest;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.enums.Events;
 import ru.otus.epam.finalautoproject.enums.NavigationBar;
-import ru.otus.epam.finalautoproject.helpers.EventsCardHelper;
+import ru.otus.epam.finalautoproject.helpers.EventsAndTalksCardHelper;
 import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
@@ -31,7 +31,7 @@ public class PastEventsTest extends BaseWebDrivingTest {
     @Autowired
     private EventsPage eventsPage;
     @Autowired
-    private EventsCardHelper eventsCardHelper;
+    private EventsAndTalksCardHelper eventsAndTalksCardHelper;
 
     /*
      * Тестовые данные
@@ -68,7 +68,7 @@ public class PastEventsTest extends BaseWebDrivingTest {
             dependsOnMethods = "checkPastEvents")
     public void checkDateEvents(){
         LocalDate today = LocalDate.now();
-        eventsCardHelper.setEventCardList(eventCardList);
+        eventsAndTalksCardHelper.setEventCardList(eventCardList);
         eventCardList.forEach(card->{
             log.info("Текущая дата: " + today);
             log.info("Дата мероприятия: " + card.getDate());
