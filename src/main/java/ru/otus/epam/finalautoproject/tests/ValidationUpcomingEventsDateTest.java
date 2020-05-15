@@ -69,6 +69,7 @@ public class ValidationUpcomingEventsDateTest extends BaseWebDrivingTest {
         log.info("\n"+"Текущая дата: " + today.toString() + "\n" +
                     "Дата начала недели: " + monday + "\n" +
                     "Дата окончания недели: " + sunday);
+        Assert.assertTrue(cardElements.size()!=0,"Карточек в блоке [This Week] нету!");
         cardElements.forEach(card->{
             LocalDate date = dateHelper.getDate(card.findElement(By.cssSelector(CARD_DATE)).getText());
             log.info("Дата проведения мероприятия на карточке: " + date.toString());

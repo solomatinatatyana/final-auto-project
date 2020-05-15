@@ -4,6 +4,8 @@ import com.epam.healenium.SelfHealingDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.AbstractPage;
 
@@ -18,25 +20,25 @@ public class TalksLibraryFilterBlock extends AbstractPage {
     public WebElement searchTextInput;
 
     @FindBy(id = "filter_category")
-    public WebElement categoryFilterSelect;
+    private WebElement categoryFilterSelect;
 
     @FindBy(id = "filter_media")
     public WebElement mediaFilterSelect;
 
     @FindBy(id = "filter_location")
-    public WebElement locationFilterSelect;
+    private WebElement locationFilterSelect;
 
     @FindBy(id = "filter_speaker")
     public WebElement speakerFilterSelect;
 
     @FindBy(id = "filter_language")
-    public WebElement languageFilterSelect;
+    private WebElement languageFilterSelect;
 
     @FindBy(id = "filter_talk_level")
     public WebElement talksLevelFilterSelect;
 
     @FindBy(css = ".evnt-toggle-filters-button")
-    public WebElement eventToggleFiltersButton;
+    private WebElement eventToggleFiltersButton;
 
     @FindBy(xpath = ".//div[@aria-labelledby='filter_category']/div/input")
     public WebElement categorySearchTextInput;
@@ -70,5 +72,25 @@ public class TalksLibraryFilterBlock extends AbstractPage {
 
     @FindBy(css = ".evnt-results-cell>p>span")
     public WebElement resultsCount;
+
+    public WebElement getCategoryFilterSelect(){
+        return new WebDriverWait(driver,500)
+                .until(ExpectedConditions.visibilityOf(categoryFilterSelect));
+    }
+
+    public WebElement getLocationFilterSelect(){
+        return new WebDriverWait(driver,500)
+                .until(ExpectedConditions.visibilityOf(locationFilterSelect));
+    }
+
+    public WebElement getLanguageFilterSelect(){
+        return new WebDriverWait(driver,500)
+                .until(ExpectedConditions.visibilityOf(languageFilterSelect));
+    }
+
+    public WebElement getEventToggleFiltersButton(){
+        return new WebDriverWait(driver,5000)
+                .until(ExpectedConditions.visibilityOf(eventToggleFiltersButton));
+    }
 
 }

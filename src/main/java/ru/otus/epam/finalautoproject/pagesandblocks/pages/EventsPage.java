@@ -89,11 +89,9 @@ public class EventsPage extends AbstractPage {
      * @param searchText критерий поиска
      */
     public void filterByLocation(String searchText){
-        WebDriverWait wait = (new WebDriverWait(driver, 500));
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        WebElement location = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(eventsFilterBlock.locationFilterSelect));
-        location.click();
+        eventsFilterBlock.getLocationFilterSelect().click();
         (new WebDriverWait(driver, 50))
                 .until(ExpectedConditions.visibilityOf(eventsFilterBlock.locationFilterMenu));
         eventsFilterBlock.locationSearchTextInput.sendKeys(searchText);
@@ -101,7 +99,7 @@ public class EventsPage extends AbstractPage {
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        eventsFilterBlock.locationFilterSelect.click();
+        eventsFilterBlock.getLocationFilterSelect().click();
         WebDriverWait wait2 = (new WebDriverWait(driver, 100));
         wait2.until(ExpectedConditions.visibilityOf(eventsFilterBlock.filterContentTable));
         Assert.assertTrue(eventsIsFilteredSuccess(searchText),
@@ -111,6 +109,13 @@ public class EventsPage extends AbstractPage {
     private boolean eventsIsFilteredSuccess(String filter){
         return elementsHelper.isElementPresent(By.xpath(".//div[@class = 'evnt-tag evnt-filters-tags with-delete-elem' " +
                 "and .//label[contains(text(), '"+filter+"')]]"));
+    }
+
+    public void goToCard(int position){
+        elementsHelper.scrollIntoView("evnt-event-card",position);
+        eventCardList.get(position).click();
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
     }
 
 }

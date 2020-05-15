@@ -54,9 +54,7 @@ public class TalksLibraryPage extends AbstractPage{
      * @param searchText критерий поиска
      */
     public void filterByLocation(String searchText){
-        WebElement location = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.locationFilterSelect));
-        location.click();
+        talksLibraryFilterBlock.getLocationFilterSelect().click();
         (new WebDriverWait(driver, 50))
                 .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.locationFilterMenu));
         talksLibraryFilterBlock.locationSearchTextInput.sendKeys(searchText);
@@ -64,9 +62,9 @@ public class TalksLibraryPage extends AbstractPage{
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        WebDriverWait wait = (new WebDriverWait(driver, 400));
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        talksLibraryFilterBlock.locationFilterSelect.click();
+        talksLibraryFilterBlock.getLocationFilterSelect().click();
         log.info("Применен фильтр Location - ["+ searchText +"]");
         Assert.assertTrue(talksIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
@@ -77,18 +75,16 @@ public class TalksLibraryPage extends AbstractPage{
      * @param searchText критерий поиска
      */
     public void filterByCategory(String searchText){
-        WebElement category = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.categoryFilterSelect));
-        category.click();
+        talksLibraryFilterBlock.getCategoryFilterSelect().click();
         (new WebDriverWait(driver, 50))
                 .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.categoryFilterMenu));
         WebElement checkbox = (new WebDriverWait(driver, 100))
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        WebDriverWait wait = (new WebDriverWait(driver, 200));
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        talksLibraryFilterBlock.categoryFilterSelect.click();
+        talksLibraryFilterBlock.getCategoryFilterSelect().click();
         log.info("Применен фильтр Category - ["+ searchText +"]");
         Assert.assertTrue(talksIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
@@ -99,9 +95,7 @@ public class TalksLibraryPage extends AbstractPage{
      * @param searchText критерий поиска
      */
     public void filterByLanguage(String searchText){
-        WebElement language = new WebDriverWait(driver,200)
-                .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.languageFilterSelect));
-        language.click();
+        talksLibraryFilterBlock.getLanguageFilterSelect().click();
         (new WebDriverWait(driver, 50))
                 .until(ExpectedConditions.visibilityOf(talksLibraryFilterBlock.languageFilterMenu));
         talksLibraryFilterBlock.languageSearchTextInput.sendKeys(searchText);
@@ -109,9 +103,9 @@ public class TalksLibraryPage extends AbstractPage{
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(".//label[@data-value='"+searchText+"']")));
         checkbox.click();
-        WebDriverWait wait = (new WebDriverWait(driver, 500));
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        talksLibraryFilterBlock.languageFilterSelect.click();
+        talksLibraryFilterBlock.getLanguageFilterSelect().click();
         log.info("Применен фильтр Language - ["+ searchText +"]");
         Assert.assertTrue(talksIsFilteredSuccess(searchText),
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
@@ -129,9 +123,9 @@ public class TalksLibraryPage extends AbstractPage{
     }
 
     public void moreFilterButtonClick(){
-        WebDriverWait wait = (new WebDriverWait(driver, 200));
+        WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
-        talksLibraryFilterBlock.eventToggleFiltersButton.click();
+        talksLibraryFilterBlock.getEventToggleFiltersButton().click();
     }
 
     public void goToCard(int position){

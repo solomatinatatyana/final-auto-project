@@ -40,7 +40,7 @@ public class MainPage extends AbstractPage{
                 WebElement calendarButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.calendarButton));
                 calendarButton.click();
-                WebDriverWait wait = (new WebDriverWait(driver, 400));
+                WebDriverWait wait = (new WebDriverWait(driver, 5000));
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/calendar");
                 break;
@@ -48,7 +48,7 @@ public class MainPage extends AbstractPage{
                 WebElement eventButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.eventsButton));
                 eventButton.click();
-                WebDriverWait wait1 = (new WebDriverWait(driver, 400));
+                WebDriverWait wait1 = (new WebDriverWait(driver, 5000));
                 wait1.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/events");
                 break;
@@ -56,7 +56,7 @@ public class MainPage extends AbstractPage{
                 WebElement talksButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.talksLibraryButton));
                 talksButton.click();
-                WebDriverWait wait2 = (new WebDriverWait(driver, 400));
+                WebDriverWait wait2 = (new WebDriverWait(driver, 5000));
                 wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/talks");
                 break;
@@ -64,7 +64,7 @@ public class MainPage extends AbstractPage{
                 WebElement speakersButton = (new WebDriverWait(driver, 10))
                         .until(ExpectedConditions.visibilityOf(eventNavigationNavBarBlock.speakersButton));
                 speakersButton.click();
-                WebDriverWait wait3 = (new WebDriverWait(driver, 400));
+                WebDriverWait wait3 = (new WebDriverWait(driver, 5000));
                 wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
                 Assert.assertEquals(driver.getCurrentUrl(),"https://events.epam.com/speakers");
                 break;
