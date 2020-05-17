@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.models.EventCard;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class EventsAndTalksCardHelper {
      * Получить информацию по каждому мероприятию из списка мероприятий
      * @param cardList список мероприятий
      */
-    public void setEventCardList(List<EventCard> cardList) {
+    public void setEventCardList(List<EventCard> cardList) throws MalformedURLException {
         String eventsCardsParsed = config.getDriver().getPageSource();
         Document html = Jsoup.parse(eventsCardsParsed);
         Elements cards = html.select(EVENT_CARD);

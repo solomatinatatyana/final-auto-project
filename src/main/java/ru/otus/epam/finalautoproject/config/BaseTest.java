@@ -7,6 +7,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.asserts.SoftAssert;
 
+import java.net.MalformedURLException;
+
 /**
  * Безовый класс для запуска тестов. Содержит настройки логирования и другие общие настройки
  */
@@ -16,7 +18,7 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
     protected SoftAssert softAssert = new SoftAssert();
 
     @BeforeClass(alwaysRun = true)
-    public void setUp() {
+    public void setUp() throws MalformedURLException {
         log = LogManager.getLogger("TestRunner");
     }
 }

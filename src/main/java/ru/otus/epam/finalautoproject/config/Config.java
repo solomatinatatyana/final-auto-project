@@ -13,6 +13,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import ru.otus.epam.finalautoproject.config.driver.WebApplicationService;
 import ru.otus.epam.finalautoproject.config.ui.BrowserType;
 
+import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 @PropertySource("classpath:properties/application.properties")
@@ -39,7 +40,7 @@ public class Config {
     private WebApplicationService webApplicationService;
 
     @Bean
-    public SelfHealingDriver getDriver() {
+    public SelfHealingDriver getDriver() throws MalformedURLException {
         this.options = new MutableCapabilities();
         this.driver = webApplicationService.initDriver(BrowserType.valueOf(browser), options);
         this.driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);

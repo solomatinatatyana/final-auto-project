@@ -1,5 +1,9 @@
 package ru.otus.epam.finalautoproject.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -16,8 +20,13 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.TalksCardPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.TalksLibraryPage;
 
+import java.net.MalformedURLException;
+
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
+@Epic("Spring Tests")
+@Feature("Фильтрация докладов")
+@Story("Фильтрация докладов по категориям")
 @Test(groups = "smoke")
 public class FilterTalksByCategoriesTest extends BaseWebDrivingTest {
     private Logger log = LogManager.getLogger(FilterTalksByCategoriesTest.class);
@@ -41,8 +50,9 @@ public class FilterTalksByCategoriesTest extends BaseWebDrivingTest {
         mainPage.goToNavView(NavigationBar.TALKS_LIBRARY);
     }
 
-    @Test(description = "Проверить Фильтрацию докладов по категориям: Category, Location, Language")
-    public void filterByCategories() throws InterruptedException {
+    @Description("Проверить Фильтрацию докладов по категориям: Category, Location, Language")
+    @Test()
+    public void filterByCategories() throws InterruptedException, MalformedURLException {
         talksLibraryPage.moreFilterButtonClick();
         /*Отфильтровать по категории*/
         talksLibraryPage.filterByCategory(SEARCH_CATEGORY);

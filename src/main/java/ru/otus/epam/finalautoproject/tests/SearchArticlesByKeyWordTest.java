@@ -1,5 +1,9 @@
 package ru.otus.epam.finalautoproject.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +20,13 @@ import ru.otus.epam.finalautoproject.enums.NavigationBar;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.TalksLibraryPage;
 
+import java.net.MalformedURLException;
+
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
+@Epic("Spring Tests")
+@Feature("Фильтрация докладов")
+@Story("Фильтрация докладов по ключевому слову")
 @Test(groups = "smoke")
 public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
     private Logger log = LogManager.getLogger(SearchArticlesByKeyWordTest.class);
@@ -37,8 +46,9 @@ public class SearchArticlesByKeyWordTest extends BaseWebDrivingTest {
         mainPage.goToNavView(NavigationBar.TALKS_LIBRARY);
     }
 
-    @Test(description = "Проверка фильтрации докладов по ключевому слову - Azure")
-    public void checkFilterTalks() throws InterruptedException {
+    @Description("Проверка фильтрации докладов по ключевому слову - Azure")
+    @Test()
+    public void checkFilterTalks() throws InterruptedException, MalformedURLException {
         talksLibraryPage.filterByKeyWord(SEARCH_TEXT);
         int countCards = talksLibraryPage.getEventsCount();
         log.info("Всего на странице карточек " + countCards);

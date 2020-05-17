@@ -1,6 +1,7 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -28,11 +29,13 @@ public class MainPage extends AbstractPage{
 
     private static final String GLOBAL_LOADER = ".evnt-global-loader";
 
+    @Step("Переход на сайт {url}")
     public void open(String url){
         driver.get(url);
         Assert.assertEquals(driver.getCurrentUrl(),url,"Сайт не открылся");
     }
 
+    @Step("Переход на вкладку {button}")
     public void goToNavView(NavigationBar button){
         log.info("Переходим на вкладку " + button);
         switch (button){

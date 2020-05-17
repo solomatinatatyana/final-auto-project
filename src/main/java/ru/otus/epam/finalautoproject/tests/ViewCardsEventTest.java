@@ -1,6 +1,10 @@
 package ru.otus.epam.finalautoproject.tests;
 
 import com.google.common.base.Strings;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -22,6 +26,7 @@ import ru.otus.epam.finalautoproject.models.EventCard;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,9 @@ import static ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock
 
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
+@Epic("Spring Tests")
+@Feature("Работа с событиями")
+@Story("Просмотр карточек мероприятий")
 @Test(groups = "smoke")
 public class ViewCardsEventTest extends BaseWebDrivingTest {
     private Logger log = LogManager.getLogger(ViewCardsEventTest.class);
@@ -52,17 +60,17 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
         mainPage.goToNavView(NavigationBar.EVENTS);
     }
 
-    @Test(description = "Перейти на Upcoming Events. " +
-            "Проверить, что отображаются карточки предстоящих мероприятий")
-    public void checkUpcomingEvents(){
+    @Description("Перейти на Upcoming Events. Проверить, что отображаются карточки предстоящих мероприятий")
+    @Test()
+    public void checkUpcomingEvents() throws MalformedURLException {
         eventsPage.goToEventsView(Events.UPCOMING_EVENTS);
         /*Проверить, что отображаются карточки предстоящих мероприятий*/
         int currentUpcomingEventsCount= eventsPage.getEventsCount();
         Assert.assertTrue(currentUpcomingEventsCount!=0,"Предстоящих мероприятий нет!");
     }
 
-    @Test(description = "Проверить, что все блоки с информацией присутствуют на карточке",
-            dependsOnMethods = "checkUpcomingEvents")
+    @Description("Проверить, что все блоки с информацией присутствуют на карточке")
+    @Test(dependsOnMethods = "checkUpcomingEvents")
     public void isPresetElements(){
         eventsPage.eventCardList.forEach(card->{
             softAssert.assertTrue(
@@ -81,9 +89,9 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Проверить, что указанная информаци на карточке мероприятия не пустая",
-    dependsOnMethods = "isPresetElements",alwaysRun = true)
-    public void checkCardInfo(){
+    @Description("Проверить, что указанная информаци на карточке мероприятия не пустая")
+    @Test(dependsOnMethods = "isPresetElements",alwaysRun = true)
+    public void checkCardInfo() throws MalformedURLException {
         int countCard = eventsPage.getEventsCount();
         log.info("Всего карточек на странице: " + countCard);
         eventsAndTalksCardHelper.setEventCardList(eventCardList);
@@ -97,8 +105,8 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Проверить порядок отображаемых блоков с информацией в карточке мероприятия",
-    dependsOnMethods = "checkCardInfo", alwaysRun = true)
+    @Description("Проверить порядок отображаемых блоков с информацией в карточке мероприятия")
+    @Test(dependsOnMethods = "checkCardInfo", alwaysRun = true)
     public void checkOrderInfo(){
         /*eventsPage.eventCardBlock.cardElementStructureList.size();
         List<WebElement> currentElementsBlockList = new ArrayList<>();

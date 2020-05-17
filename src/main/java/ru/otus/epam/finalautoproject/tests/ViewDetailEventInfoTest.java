@@ -1,5 +1,9 @@
 package ru.otus.epam.finalautoproject.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +22,13 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventCardPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.EventsPage;
 import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 
+import java.net.MalformedURLException;
+
 @SpringBootTest(classes = FinalAutoProjectApplication.class)
 @ContextConfiguration(classes = Config.class)
+@Epic("Spring Tests")
+@Feature("Работа с событиями")
+@Story("Просмотр детальной информации о мероприятии")
 @Test(groups = "smoke")
 public class ViewDetailEventInfoTest extends BaseWebDrivingTest {
     private Logger log = LogManager.getLogger(ViewDetailEventInfoTest.class);
@@ -37,8 +46,9 @@ public class ViewDetailEventInfoTest extends BaseWebDrivingTest {
         mainPage.goToNavView(NavigationBar.EVENTS);
     }
 
-    @Test(description = "Перейти на Upcoming Events. ")
-    public void goToUpcomingEventsView(){
+    @Description("Перейти на Upcoming Events. ")
+    @Test()
+    public void goToUpcomingEventsView() throws MalformedURLException {
         eventsPage.goToEventsView(Events.UPCOMING_EVENTS);
         /*Проверить, что отображаются карточки предстоящих мероприятий*/
         int currentUpcomingEventsCount= eventsPage.getEventsCount();
@@ -46,11 +56,11 @@ public class ViewDetailEventInfoTest extends BaseWebDrivingTest {
         Assert.assertTrue(currentUpcomingEventsCount!=0,"Предстоящих мероприятий нет!");
     }
 
-    @Test(description = "Проверить, что на странице с информацией о мероприятии " +
-            "отображается шапка с кнопкой для регистрации и " +
-            "основная часть с программой мероприятия, датой, временем, местом проведения",
-            dependsOnMethods = "goToUpcomingEventsView")
-    public void checkBlocksInfoIsPresent(){
+    @Description("Проверить, что на странице с информацией о мероприятии " +
+            "отображается шапка с кнопкой для регистрации и" +
+            "основная часть с программой мероприятия, датой, временем, местом проведения")
+    @Test(dependsOnMethods = "goToUpcomingEventsView")
+    public void checkBlocksInfoIsPresent() throws MalformedURLException {
         /*Перейти в первую карточку*/
         log.info("Переходим в карточку");
         eventsPage.goToCard(0);

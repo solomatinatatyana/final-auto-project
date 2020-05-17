@@ -1,6 +1,7 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,6 +19,7 @@ import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsFilterBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventsTabsNavBlock;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Component
@@ -55,6 +57,7 @@ public class EventsPage extends AbstractPage {
         return eventCardThisWeekList;
     }
 
+    @Step("Переход на {eventType}")
     public void goToEventsView(Events eventType){
         log.info("Переключаемся на " + eventType);
         switch (eventType){
@@ -75,12 +78,12 @@ public class EventsPage extends AbstractPage {
         }
     }
 
-    private List<WebElement> getAllEventsCard(){
+    private List<WebElement> getAllEventsCard() throws MalformedURLException {
         elementsHelper.scrollPageToTheBottom();
         return eventCardList;
     }
 
-    public int getEventsCount(){
+    public int getEventsCount() throws MalformedURLException {
         return getAllEventsCard().size();
     }
 
@@ -88,6 +91,7 @@ public class EventsPage extends AbstractPage {
      * Найти мероприятия по фильтру Location
      * @param searchText критерий поиска
      */
+    @Step("Отфильтровать по месту проведения")
     public void filterByLocation(String searchText){
         WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
@@ -111,7 +115,8 @@ public class EventsPage extends AbstractPage {
                 "and .//label[contains(text(), '"+filter+"')]]"));
     }
 
-    public void goToCard(int position){
+    @Step("Перейти в карточку мероприятия")
+    public void goToCard(int position) throws MalformedURLException {
         elementsHelper.scrollIntoView("evnt-event-card",position);
         eventCardList.get(position).click();
         WebDriverWait wait = (new WebDriverWait(driver, 100000));

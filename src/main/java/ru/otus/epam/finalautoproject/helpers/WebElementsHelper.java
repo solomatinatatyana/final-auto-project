@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.config.Config;
 
+import java.net.MalformedURLException;
+
 @Component
 public class WebElementsHelper {
     @Autowired
@@ -26,7 +28,7 @@ public class WebElementsHelper {
         try {
             config.getDriver().findElement(by).isDisplayed();
             return true;
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | MalformedURLException e) {
             return false;
         }
     }
@@ -62,7 +64,7 @@ public class WebElementsHelper {
     /**
      * Проскроллить страницу вниз
      */
-    public void scrollPageToTheBottom(){
+    public void scrollPageToTheBottom() throws MalformedURLException {
         ((JavascriptExecutor) config.getDriver()).executeScript("" +
                 "function f(){\n" +
                 "var height = 0; \n" +
@@ -77,7 +79,7 @@ public class WebElementsHelper {
                 "f()");
     }
 
-    public void scrollIntoView(String className, int position){
+    public void scrollIntoView(String className, int position) throws MalformedURLException {
         ((JavascriptExecutor) config.getDriver()).executeScript(
                 "document.getElementsByClassName('"+className+"')["+position+"].scrollIntoView()");
     }
@@ -86,5 +88,5 @@ public class WebElementsHelper {
      * Проскроллить страницу на "y" вниз
      * @param y показатель на сколько скроллить страницу
      */
-    public void scrollBy(int y){ ((JavascriptExecutor) config.getDriver()).executeScript("window.scrollBy(0,"+ y +")"); }
+    public void scrollBy(int y) throws MalformedURLException { ((JavascriptExecutor) config.getDriver()).executeScript("window.scrollBy(0,"+ y +")"); }
 }

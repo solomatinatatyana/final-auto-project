@@ -1,6 +1,8 @@
 package ru.otus.epam.finalautoproject.pagesandblocks.pages;
 
 import com.epam.healenium.SelfHealingDriver;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -16,6 +18,7 @@ import ru.otus.epam.finalautoproject.helpers.WebElementsHelper;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.TalkCardBlock;
 import ru.otus.epam.finalautoproject.pagesandblocks.blocks.TalksLibraryFilterBlock;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Component
@@ -39,13 +42,13 @@ public class TalksLibraryPage extends AbstractPage{
     @FindBy(css = EVENT_TALK_CARD)
     public List<WebElement> eventTalkCardList;
 
-    private List<WebElement> getAllTalkCard() throws InterruptedException {
+    private List<WebElement> getAllTalkCard() throws InterruptedException, MalformedURLException {
         elementsHelper.scrollPageToTheBottom();
         Thread.sleep(10000);
         return eventTalkCardList;
     }
 
-    public int getEventsCount() throws InterruptedException {
+    public int getEventsCount() throws InterruptedException, MalformedURLException {
         return getAllTalkCard().size();
     }
 
@@ -53,6 +56,7 @@ public class TalksLibraryPage extends AbstractPage{
      * Найти мероприятия по фильтру Location
      * @param searchText критерий поиска
      */
+    @Step("Отфильтровать по месту проведения")
     public void filterByLocation(String searchText){
         talksLibraryFilterBlock.getLocationFilterSelect().click();
         (new WebDriverWait(driver, 50))
@@ -74,6 +78,7 @@ public class TalksLibraryPage extends AbstractPage{
      * Найти мероприятия по фильтру Category
      * @param searchText критерий поиска
      */
+    @Description("Отфильтровать по категориям")
     public void filterByCategory(String searchText){
         talksLibraryFilterBlock.getCategoryFilterSelect().click();
         (new WebDriverWait(driver, 50))
@@ -94,6 +99,7 @@ public class TalksLibraryPage extends AbstractPage{
      * Найти мероприятия по фильтру Language
      * @param searchText критерий поиска
      */
+    @Step("Отфильтровать по языку")
     public void filterByLanguage(String searchText){
         talksLibraryFilterBlock.getLanguageFilterSelect().click();
         (new WebDriverWait(driver, 50))
@@ -111,6 +117,7 @@ public class TalksLibraryPage extends AbstractPage{
                 "Фильтр со значением ["+ searchText +"] не применился или применился неверно!");
     }
 
+    @Step("Отфильтровать по ключевому слову")
     public void filterByKeyWord(String searchText){
         talksLibraryFilterBlock.searchTextInput.sendKeys(searchText);
         WebDriverWait wait = (new WebDriverWait(driver, 400));
@@ -123,12 +130,13 @@ public class TalksLibraryPage extends AbstractPage{
     }
 
     public void moreFilterButtonClick(){
-        WebDriverWait wait = (new WebDriverWait(driver, 100000));
+        WebDriverWait wait = (new WebDriverWait(driver, 1000000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
         talksLibraryFilterBlock.getEventToggleFiltersButton().click();
     }
 
-    public void goToCard(int position){
+    @Step("Перейти в карточку доклада")
+    public void goToCard(int position) throws MalformedURLException {
         elementsHelper.scrollIntoView("evnt-talk-card",position);
         eventTalkCardList.get(position).click();
         WebDriverWait wait = (new WebDriverWait(driver, 400));
