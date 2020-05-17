@@ -7,9 +7,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class WebApplicationServiceImpl implements WebApplicationService {
         Config config = ConfigFactory.load("properties/healenium.properties");
         switch (browser) {
             case CHROME:
-                WebDriverManager.chromedriver().setup();
+                //WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments(Arrays.asList("--start-maximized",
                         "--allow-file-access-from-files",
@@ -45,20 +43,20 @@ public class WebApplicationServiceImpl implements WebApplicationService {
                 chromeOptions.setCapability("enableVNC", true);
                 chromeOptions.setCapability("enableVideo", false);
                 options.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-                //delegate = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"),options);
-                delegate = new ChromeDriver();
+                delegate = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"),options);
+                //delegate = new ChromeDriver();
                 driver = SelfHealingDriver.create(delegate, config);
                 break;
             case FIREFOX:
-                WebDriverManager.firefoxdriver().setup();
+                //WebDriverManager.firefoxdriver().setup();
                 options.setCapability(CapabilityType.BROWSER_NAME,"firefox");
-                options.setCapability(CapabilityType.BROWSER_VERSION,"73.0");
+                options.setCapability(CapabilityType.BROWSER_VERSION,"76.0");
                 options.setCapability("enableVNC", true);
                 options.setCapability("enableVideo", false);
                 options.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 options.setCapability(CapabilityType.HAS_NATIVE_EVENTS, true);
-                //delegate = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"),options);
-                delegate = new FirefoxDriver();
+                delegate = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"),options);
+                //delegate = new FirefoxDriver();
                 driver = SelfHealingDriver.create(delegate, config);
                 break;
         }

@@ -46,6 +46,7 @@ public class FilterTalksByCategoriesTest extends BaseWebDrivingTest {
 
     @BeforeClass(alwaysRun = true)
     public void init(){
+        log.info("currentThread is " + Thread.currentThread().getId());
         mainPage.open(config.getUrl());
         mainPage.goToNavView(NavigationBar.TALKS_LIBRARY);
     }

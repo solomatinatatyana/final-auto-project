@@ -48,6 +48,7 @@ public class PastEventsTest extends BaseWebDrivingTest {
 
     @BeforeClass(alwaysRun = true)
     public void init(){
+        log.info("currentThread is " + Thread.currentThread().getId());
         mainPage.open(config.getUrl());
         mainPage.goToNavView(NavigationBar.EVENTS);
     }
