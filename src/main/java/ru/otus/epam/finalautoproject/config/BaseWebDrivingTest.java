@@ -21,7 +21,7 @@ public class BaseWebDrivingTest extends BaseTest {
     }
 
     protected static String browser = System.getProperty("browser").toUpperCase();
-
+    
     @BeforeClass(alwaysRun = true)
     public void setUp() throws MalformedURLException {
         super.setUp();

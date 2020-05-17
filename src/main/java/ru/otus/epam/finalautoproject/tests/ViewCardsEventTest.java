@@ -28,6 +28,7 @@ import ru.otus.epam.finalautoproject.pagesandblocks.pages.MainPage;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock.*;
@@ -52,10 +53,15 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
     * Тестовые данные
     * */
     private List<EventCard> eventCardList = new ArrayList<>();
-    private List<WebElement> elementsBlockList = new ArrayList<>();
+    private List<String> expectedDivClassesList = new ArrayList<>();
+    String[] classes = { "evnt-details-cell online-cell",
+            "evnt-details-cell language-cell",
+            "evnt-event-name",
+            "evnt-event-dates-table"};
 
     @BeforeClass(alwaysRun = true)
     public void init(){
+        Collections.addAll(expectedDivClassesList,classes);
         mainPage.open(config.getUrl());
         mainPage.goToNavView(NavigationBar.EVENTS);
     }
@@ -108,10 +114,13 @@ public class ViewCardsEventTest extends BaseWebDrivingTest {
     @Description("Проверить порядок отображаемых блоков с информацией в карточке мероприятия")
     @Test(dependsOnMethods = "checkCardInfo", alwaysRun = true)
     public void checkOrderInfo(){
-        /*eventsPage.eventCardBlock.cardElementStructureList.size();
-        List<WebElement> currentElementsBlockList = new ArrayList<>();
+        /*Для каждой карточки проверить список атрибутов на элементах*/
         eventsPage.eventCardList.forEach(card->{
-            //card.findElements()
-        });*/
+            List<WebElement> currentElementsBlockList =eventsAndTalksCardHelper.getAllElementsOnCard(card);
+            List<String> currentDivClassesList =  new ArrayList<>();
+            currentElementsBlockList.forEach(element -> currentDivClassesList.add(element.getAttribute("class")));
+            softAssert.assertEquals(currentDivClassesList,expectedDivClassesList,"Списки с блоками не совпадают");
+        });
+        softAssert.assertAll();
     }
 }

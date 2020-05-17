@@ -6,10 +6,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.otus.epam.finalautoproject.config.Config;
 import ru.otus.epam.finalautoproject.models.EventCard;
+import ru.otus.epam.finalautoproject.pagesandblocks.blocks.EventCardBlock;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -89,5 +92,14 @@ public class EventsAndTalksCardHelper {
             });
         }
         return speakerList;
+    }
+
+    /**
+     * Получить список блоков элементов на карточке
+     * @param element карточка
+     * @return список блоков с информацией
+     */
+    public List<WebElement> getAllElementsOnCard(WebElement element){
+        return element.findElements(By.xpath(EventCardBlock.ALL_ELEMENTS_ON_CARD));
     }
 }

@@ -122,5 +122,4 @@ public class EventsPage extends AbstractPage {
         WebDriverWait wait = (new WebDriverWait(driver, 100000));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(GLOBAL_LOADER)));
     }
-
 }
