@@ -3,7 +3,6 @@ package ru.otus.epam.finalautoproject.config.driver;
 import com.epam.healenium.SelfHealingDriver;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;

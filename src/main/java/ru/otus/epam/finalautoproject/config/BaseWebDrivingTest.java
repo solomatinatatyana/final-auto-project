@@ -20,13 +20,13 @@ public class BaseWebDrivingTest extends BaseTest {
         this.driver = driver;
     }
 
-    protected static String browser = System.getProperty("browser").toUpperCase();
+    protected static String BROWSER = System.getProperty("browser").toUpperCase();
     
     @BeforeClass(alwaysRun = true)
     public void setUp() throws MalformedURLException {
         super.setUp();
         log.info("Test: [{}]", this.getClass().asSubclass(this.getClass()).getSimpleName());
-        log.info("Browser: [{}]", BrowserType.valueOf(browser));
+        log.info("Browser: [{}]", BrowserType.valueOf(BROWSER));
         this.setDriver(config.getDriver());
     }
 

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class Config {
     protected SelfHealingDriver driver;
     protected MutableCapabilities options;
-    protected static String browser = System.getProperty("browser").toUpperCase();
+    protected static String BROWSER = System.getProperty("browser").toUpperCase();
 
     @Value("${sut.url}")
     private String url;
@@ -42,7 +42,7 @@ public class Config {
     @Bean
     public SelfHealingDriver getDriver() throws MalformedURLException {
         this.options = new MutableCapabilities();
-        this.driver = webApplicationService.initDriver(BrowserType.valueOf(browser), options);
+        this.driver = webApplicationService.initDriver(BrowserType.valueOf(BROWSER), options);
         this.driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         this.driver.manage().timeouts().setScriptTimeout(20, TimeUnit.SECONDS);
         this.driver.manage().window().maximize();
